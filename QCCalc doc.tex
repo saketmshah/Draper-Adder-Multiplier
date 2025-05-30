@@ -1,0 +1,155 @@
+\documentclass{article}
+
+%packages
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{cite}
+\usepackage{tikz-cd}
+\usepackage{mathtools}
+\usepackage{framed}
+\usepackage[mathscr]{eucal}
+\usepackage{fullpage}
+\usepackage{hyperref}
+\usepackage{enumerate}
+\usepackage{wasysym}
+\usepackage{xcolor}
+\usepackage{scalerel}
+\hypersetup{colorlinks=true,citecolor=blue,urlcolor =black,linkbordercolor={1 0 0}}
+\mathtoolsset{centercolon}
+
+%theorem environments
+\newtheorem{theorem}{Theorem}
+\newtheorem{introthm}{\Alph{theorem}}
+\newtheorem{theoremdef}[theorem]{Theorem-Definition}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\newtheorem{claim}[theorem]{Claim}
+\newtheorem{project}[theorem]{Project}
+\theoremstyle{definition}
+\newtheorem{defn}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{question}{Question}
+
+%remark environments
+\theoremstyle{remark}
+\newtheorem*{remark}{Remark}
+\newtheorem*{notation}{Notation}
+\newtheorem*{note}{Note}
+
+% various commands
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\on}{\operatorname}
+\newcommand{\abs}[1]{\left|#1\right|}
+\newcommand{\etale}{\'{e}tale }
+\renewcommand{\tilde}[1]{\widetilde{#1}}
+\newcommand{\braket}[1]{|#1\rangle}
+
+
+% callifgraphic 
+\newcommand{\cO}{\mathcal{O}}
+\newcommand{\cA}{\mathcal{A}}
+\newcommand{\cB}{\mathcal{B}}
+\newcommand{\cC}{\mathscr{C}}
+\newcommand{\cD}{\mathscr{D}}
+\newcommand{\cE}{\mathcal{E}}
+\newcommand{\cF}{\mathcal{F}}
+\newcommand{\cG}{\mathcal{G}}
+\newcommand{\cH}{\mathcal{H}}
+\newcommand{\cJ}{\mathcal{J}}
+\newcommand{\cK}{\mathcal{K}}
+\newcommand{\cL}{\mathcal{L}}
+\newcommand{\cM}{\mathcal{M}}
+\newcommand{\cN}{\mathcal{N}}
+\newcommand{\cP}{\mathcal{P}}
+\newcommand{\cQ}{\mathcal{Q}}
+\newcommand{\cR}{\mathcal{R}}
+\newcommand{\cS}{\mathcal{S}}
+\newcommand{\cT}{\mathcal{T}}
+\newcommand{\cU}{\mathcal{U}}
+\newcommand{\cV}{\mathcal{V}}
+\newcommand{\cW}{\mathcal{W}}
+\newcommand{\cX}{\mathcal{X}}
+\newcommand{\cZ}{\mathcal{Z}}
+
+% bold
+\newcommand{\bC}{\mathbf{C}}
+\newcommand{\bD}{\mathbf{D}}
+\newcommand{\bE}{\mathbf{E}}
+\newcommand{\bH}{\mathbf{H}}
+\newcommand{\bJ}{\mathbf{J}}
+\newcommand{\bL}{\mathbf{L}}
+\newcommand{\bP}{\mathbf{P}}
+\newcommand{\bQ}{\mathbf{Q}}
+\newcommand{\bR}{\mathbf{R}}
+\newcommand{\bS}{\mathbf{S}}
+\newcommand{\bX}{\mathbf{X}}
+\newcommand{\bY}{\mathbf{Y}}
+\newcommand{\bZ}{\mathbf{Z}}
+
+%math bold
+\newcommand{\bbC}{\mathbb{C}}
+\newcommand{\bbD}{\mathbb{D}}
+\newcommand{\bbE}{\mathbb{E}}
+\newcommand{\bbH}{\mathbb{H}}
+\newcommand{\bbJ}{\mathbb{J}}
+\newcommand{\bbL}{\mathbb{L}}
+\newcommand{\bbP}{\mathbb{P}}
+\newcommand{\bbQ}{\mathbb{Q}}
+\newcommand{\bbR}{\mathbb{R}}
+\newcommand{\bbS}{\mathbb{S}}
+\newcommand{\bbX}{\mathbb{X}}
+\newcommand{\bbY}{\mathbb{Y}}
+\newcommand{\bbZ}{\mathbb{Z}}
+
+%math bold
+\newcommand{\fa}{\mathfrak{a}}
+\newcommand{\fb}{\mathfrak{b}}
+\newcommand{\fc}{\mathfrak{c}}
+\newcommand{\fd}{\mathfrak{d}}
+
+% geometry
+
+
+\title{QC Bootcamp Project 1: Quantum Calculator} 
+\author{Saket Shah}
+
+\begin{document}
+	\maketitle
+	The project which this document describes in Qiskit code the following project: 
+	\begin{project}
+		Let $d \geq 1$ be any positive integer. Produce a quantum circuit $QCalc$ on $3d + 1$ qubits defined by	on the computational basis by	
+		\[\mathrm{QCalc}\braket{x}_d \,\braket{y}_d \,\braket{z}_1 \,\braket{0}_d = \begin{cases}
+			\braket{x}_d \,\braket{y}_d \,\braket{z}_1 \,\braket{x + y \mod 2^d}_d & \text{ if } z = 0 \\
+			\braket{x}_d \,\braket{y}_d \,\braket{z}_1 \,\braket{xy \mod 2^d}_d  &\text{ if } z = 1,
+		\end{cases}\]
+		where we interpret a computational basis element $\braket{x}_d = \braket{x_{d-1}x_{d-2}\cdots x_0}$ as the binary integer $\sum_{i=0}^{d-1} x_i2^i$ in the usual way. 
+	\end{project}
+	More generally, this implementation will behave on inputs as 
+	\[
+		\mathrm{QCalc}\braket{x}_d \,\braket{y}_d \,\braket{z}_1 \,\braket{w}_d = \begin{cases}
+		\braket{x}_d \,\braket{y}_d \,\braket{z}_1 \,\braket{w + x + y \mod 2^d}_d & \text{ if } z = 0 \\
+		\braket{x}_d \,\braket{y}_d \,\braket{z}_1 \,\braket{w + xy \mod 2^d}_d  &\text{ if } z = 1.
+		\end{cases}
+	\]
+	\section{Implementation}
+	The implementation is fundamentally based on Draper's algorithm \cite{draper}. The idea is the following: \par 
+	As in Draper addition, we apply a quantum Fourier transform to the $d$ output qubits $\braket{w}_d$, and use the property that the transformation $\braket{w} \mapsto \braket{w+k}$ can be written as $\braket{w} \mapsto \mathrm{QFT}^\dagger \circ P_k \circ \mathrm{QFT} \braket{w}$, where $P_k\braket{w} = e^{2\pi i wk/2^d}\braket{w}$. \par 
+	In this particular case, if we let $Q := \mathrm{id} \otimes \mathrm{QFT}_d$ denote the quantum Fourier transform taken on the output qubits, we observe that we can decompose $\mathrm{QCalc}$ as the composition 
+	\[Q^\dagger \circ \Phi \circ Q,\] 
+	where 
+	\[\Phi\braket{x}_d\braket{y}_d\braket{z}_1\braket{w}_d = e^{2\pi i \cdot xyzw/2^d + 2\pi i\cdot(x+y)(1\oplus z)w/2^d}\braket{x}_d\braket{y}_d\braket{z}_1\braket{w}_d.\]
+	We break this down as a composition of two separate phase shifts (which will be further broken down): one by $e^{2\pi i \cdot xyzw/2^d}$ and the other by $e^{2\pi i \cdot (x+y)(1\oplus z)w/2^d}$. \par 
+	For the first, we can write 
+	\[x = \sum_{i=0}^{d-1} x_i2^i,\]
+	and similarly for $y$ and $w$; then the phase shift can be written as a product of phase shifts by $e^{2\pi i \cdot x_iy_jzw_k \cdot 2^{i+j+k}/2^d}$, which can each be independently implemented by a multi-controlled CCCPhase gate controlled on the $i$th $x$ bit, $j$th $y$ bit and $z$ bit, scaling the $k$th $w$ bit. \par 
+	The second phase gate $e^{2\pi i \cdot (x+y)(1 \oplus z)w/2^d}$ is similar; for simplicity we apply an $X$ gate on the $z$ bit which will be undone after the phase shift. Then we break this up as $e^{2\pi i \cdot x(1 \oplus z)w/2^d}$ and $e^{2\pi i \cdot y(1 \oplus z )w/2^d}$, which can each be further broken up as a series of CCPhase gates controlled on the various $x$ (or $y$) bits and the $z$ bit, and scaling $w$ bits. This is more directly given by the algorithm in Draper's paper, with an extra control on the $z$ bit. \par 
+	The CCPhase and CCCPhase implementations are given by decomposing Qiskit's own implementation in terms of controlled phase gates and CX gates, and use no ancillas. In broad strokes, the CX gates are used in the CCPhase and CCCPhase implementations to add in phase gates that run to cancel out the existing phases when not all bits are 1. 
+	\section{Analysis of complexity}
+	In keeping with Draper's original algorithm, this algorithm makes use of no ancillas. \par 
+	In the big-$O$ sense, the main contribution to the algorithm's gate count and gate depth come from the multiplication step. The gate-count of the multiplication step has a gate count of $O(d^3)$ coming from the controlled phase gates running over the individual $x_i, y_j, w_k$ qubits. The QFT and addition each have a gate count of $O(d^2)$. The gate depth of the multiplication step is $O(d^2)$; this can be seen by one of the $x_i$ qubits and observing we still have $O(d)$ $y_j$ and $w_k$ qubits each. The gate depth of the addition step and the QFT are both $O(d)$. \par 
+	In total, the algorithm has an $O(d^3)$ gate count and $O(d^2)$ gate depth. 
+	\bibliography{ProjectCitations}
+	\bibliographystyle{alpha}
+\end{document}
